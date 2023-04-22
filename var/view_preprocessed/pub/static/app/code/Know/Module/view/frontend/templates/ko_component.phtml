@@ -1,0 +1,21 @@
+<?php $config = $block->getConfigArray(); ?> <div id="ko-component" data-bind="scope:'ko-component-tutorial'"><!-- ko template: getTemplate() --><!-- /ko --><script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+               "components": {
+                    "ko-component-tutorial": {
+                        "component": "Know_Module/js/koViewModel",
+                        "config" :{
+                                    "template": "Know_Module/ko-component-html",
+                                    "alpesh": "<?= /* @noEscape */ $config['title'] ?>",
+                                    "content": "<?= /* @noEscape */ $config['content'] ?>",
+                                    "btnText": "<?= /* @noEscape */ $config['btn_txt'] ?>",
+                                    "isPrimary": "<?= /* @noEscape */ (int)$config['is_primary_btn'] ?>",
+                                    "is_active": "<?= /* @noEscape */ (int)$config['is_active'] ?>"
+
+                                   }
+                    }
+                }
+            }
+        }
+    }</script></div>

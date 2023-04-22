@@ -1,0 +1,13 @@
+<div id="custom-component" data-bind="scope:'custom-tutorial'"><!-- ko template: getTemplate() --><!-- /ko --><script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+               "components": {
+                    "custom-tutorial": {
+                        "component": "Know_Module/js/customViewModel",
+                         "template": "Know_Module/custom-component-tpl"
+                    }
+                }
+            }
+        }
+    }</script></div>
