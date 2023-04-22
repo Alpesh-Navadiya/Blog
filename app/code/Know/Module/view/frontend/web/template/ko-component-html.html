@@ -1,0 +1,16 @@
+
+<h1 data-bind="text:alpesh"></h1>
+<p data-bind="html:content"></p>
+<p data-bind="css: {
+                    'primary':isPrimary,
+                    'secondary': !isPrimary
+                    }"></p>
+<button data-bind="attr: {
+                        type:'button',
+                        title:'Title',
+                         },class: 'action',
+                         css: {
+                    'primary':isPrimary,
+                    'secondary': !isPrimary
+                    }
+                       "><span data-bind="text:btnText"></span></button>

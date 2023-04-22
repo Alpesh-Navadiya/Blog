@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="kmconfig" translate="label" sortOrder="10">
+            <label>Know the Mage</label>
+        </tab>
+        <section id="knowthemage" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Component Settings</label>
+            <tab>kmconfig</tab>
+            <resource>Know_Module::configuration</resource>
+            <group id="general" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1">
+
+                <label> General Option </label>
+
+                <field id="is_active" translate="label comment" type="select" sortOrder="1" showInDefault="1"  showInWebsite="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="title" translate="label" type="text" sortOrder="30" showInDefault="1" showInStore="1" canRestore="1">
+                    <label>Title</label>
+                    <comment>Specify Title</comment>
+                </field>
+
+                <field id="content" translate="label" type="textarea" sortOrder="30" showInDefault="1" showInStore="1" canRestore="1">
+                    <label>Content</label>
+                    <comment>Specify Content</comment>
+                </field>
+
+                <field id="btn_txt" translate="label" type="text" sortOrder="30" showInDefault="1" showInStore="1" canRestore="1">
+                    <label>Button Text</label>
+                </field>
+
+                <field id="is_primary_btn" translate="label comment" type="select" sortOrder="40" showInDefault="1"  showInWebsite="1">
+                    <label>Primary Button</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,18 @@
+    <h1 data-bind="text:heading, class:navSectionClass"></h1>
+     <p data-bind="html:content"></p>
+    <p data-bind="style: {'color':getPrice() < 30 ? 'yellow' : 'blue'}"><span data-bind="text: getCustomText()"></span></p>
+    <p data-bind="css: {'success': getPrice() < 30,'warning': getPrice() > 30 }, class: 'message'"><span data-bind="text: getPrice() > 30 ? 'expensive':'affordable'"></span></p>
+    <a data-bind="attr: {href: url,target: '_blank'}">Go..</a>
+
+    <p data-bind="html:subject()"></p>
+    <p data-bind="html:desc()"></p>
+    <input data-bind="attr: {
+     type: 'text',
+      placeholder:'Text ..',
+       id:'custom_input'
+       }, event: {
+        keyup: onChangeInput }">
+    <p data-bind="attr: {
+    id: 'counter'
+    }, text : 'Input character is :'+ counter()"></p>
+
