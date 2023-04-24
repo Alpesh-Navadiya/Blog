@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="I98commerce_Prodfaqs::faqs_main" title="Product Faqs" module="I98commerce_Prodfaqs" sortOrder="10" resource="I98commerce_Prodfaqs::faqs_main"/>
+        <add id="I98commerce_Prodfaqs::topic" title="Manage Topics" module="I98commerce_Prodfaqs" sortOrder="10" parent="I98commerce_Prodfaqs::faqs_main" action="prodfaqs/topic/index" resource="I98commerce_Prodfaqs::topic"/>
+        <add id="I98commerce_Prodfaqs::faqs" title="Manage Faqs" module="I98commerce_Prodfaqs" sortOrder="20" parent="I98commerce_Prodfaqs::faqs_main" action="prodfaqs/faqs/index" resource="I98commerce_Prodfaqs::faqs"/>
+        <add id="I98commerce_Prodfaqs::importexport" title="Manage Import/Export" module="I98commerce_Prodfaqs" sortOrder="30" parent="I98commerce_Prodfaqs::faqs_main" action="prodfaqs/faqs/importexport" resource="I98commerce_Prodfaqs::importexport"/>
+
+        
+    
+    </menu>
+</config>

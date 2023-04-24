@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+  <table name="i98commerce_faq" resource="default" engine="innodb" comment="i98commerce_faq">
+    <column xsi:type="int" name="faq_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Faq ID"/>
+    <column xsi:type="text" name="title" nullable="true"  comment="FAQ"/>
+    <column xsi:type="text" name="faq_answer" nullable="true" comment="Answer"/>
+    <column xsi:type="smallint" name="show_on_main" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Show On Main Page"/>
+    <column xsi:type="smallint" name="faq_order" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Sorting Order"/>
+    <column xsi:type="smallint" name="rating_num" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Rating Number"/>
+    <column xsi:type="smallint" name="rating_count" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Rating Count"/>
+    <column xsi:type="decimal" name="rating_stars" scale="4" precision="12" unsigned="false" nullable="true" comment="Rating Stars"/>
+    <column xsi:type="smallint" name="accordion_opened" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Accordian Open"/>
+    <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Status"/>
+    <column xsi:type="timestamp" name="create_date" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Date"/>
+    <column xsi:type="timestamp" name="update_date" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Date"/>
+    <column xsi:type="varchar" name="identifier" nullable="true" length="255" comment="Url Identifier"/>
+    <column xsi:type="varchar" name="tags" nullable="true" length="255" comment="Tags"/>
+    <column xsi:type="int" name="faqs_topic_id" padding="254" unsigned="true" nullable="false" identity="false" comment="Topic ID"/>
+    <column xsi:type="text" name="question_by" nullable="false" comment="Question by"/>
+    <column xsi:type="text" name="user_email" nullable="false" comment="User email"/>
+    <column xsi:type="int" name="user_id" padding="11" unsigned="false" nullable="true" identity="false" comment="User id"/>
+    <column xsi:type="int" name="pro_id" padding="11" unsigned="false" nullable="true" identity="false" comment="Product id"/>
+    <column xsi:type="text" name="product_name" nullable="true" comment="Product name"/>
+    <column xsi:type="text" name="product_url" nullable="true" comment="Product URL"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="faq_id"/>
+    </constraint>
+    <constraint xsi:type="foreign" referenceId="I98COMMERCE_F_F_ID_I98COMMERCE_FT_FT_ID" table="i98commerce_faq" column="faqs_topic_id" referenceTable="i98commerce_faqs_topic" referenceColumn="faqs_topic_id" onDelete="CASCADE"/>
+      <index referenceId="UNIT6_COMPUTER_GAME_NAME_TYPE" indexType="fulltext">
+          <column name="title"/>
+      </index>
+  </table>
+  <table name="i98commerce_faqs_topic" resource="default" engine="innodb" comment="i98commerce_faqs_topic">
+    <column xsi:type="int" name="faqs_topic_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Topic ID"/>
+    <column xsi:type="varchar" name="title" nullable="true" length="255" comment="Title"/>
+    <column xsi:type="varchar" name="identifier" nullable="true" length="255" comment="Url Identifier"/>
+    <column xsi:type="varchar" name="image" nullable="true" length="255" comment="Topic Image"/>
+    <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Status"/>
+    <column xsi:type="smallint" name="show_on_main" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Show On Main Page"/>
+    <column xsi:type="smallint" name="topic_order" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Sorting Order"/>
+    <column xsi:type="timestamp" name="create_date" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Date"/>
+    <column xsi:type="timestamp" name="update_date" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Update Date"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="faqs_topic_id"/>
+    </constraint>
+      <index referenceId="UNIT6_COMPUTER_GAME_NAME_TYPE" indexType="fulltext">
+          <column name="title"/>
+      </index>
+  </table>
+  <table name="i98commerce_faqs_topic_store" resource="default" engine="innodb" comment="FaqsTopic To Store Linkage Table">
+    <column xsi:type="int" name="faqs_topic_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Faqs Topic ID"/>
+    <column xsi:type="smallint" name="store_id" padding="5" unsigned="true" nullable="false" identity="false" comment="Store ID"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="faqs_topic_id"/>
+      <column name="store_id"/>
+    </constraint>
+    <constraint xsi:type="foreign" referenceId="I98COMMERCE_FT_STORE_FT_ID_I98COMMERCE_FT_FT_ID" table="i98commerce_faqs_topic_store" column="faqs_topic_id" referenceTable="i98commerce_faqs_topic" referenceColumn="faqs_topic_id" onDelete="CASCADE"/>
+    <constraint xsi:type="foreign" referenceId="I98COMMERCE_FT_STORE_STORE_ID_STORE_STORE_ID" table="i98commerce_faqs_topic_store" column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+    <index referenceId="I98COMMERCE_FAQS_TOPIC_STORE_STORE_ID" indexType="btree">
+      <column name="store_id"/>
+    </index>
+  </table>
+  <table name="i98commerce_faqs_product" resource="default" engine="innodb" comment="Faqs Product Attachment Table">
+    <column xsi:type="int" name="faq_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Faq ID"/>
+    <column xsi:type="int" name="product_id" padding="10" unsigned="true" nullable="false" identity="false" comment="Product ID"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="faq_id"/>
+      <column name="product_id"/>
+    </constraint>
+    <constraint xsi:type="foreign" referenceId="FK_I98COMMERCE_FAQS_PRODUCT_FP_ID_I98COMMERCE_FP_FP_ID" table="i98commerce_faqs_product" column="faq_id" referenceTable="i98commerce_faq" referenceColumn="faq_id" onDelete="CASCADE"/>
+    <constraint xsi:type="foreign" referenceId="FK_I98COMMERCE_FAQS_PRODUCT_ENTITY_PRODUCT_ID_PRODUCT_PRODUCT_ID" table="i98commerce_faqs_product" column="product_id" referenceTable="catalog_product_entity" referenceColumn="entity_id" onDelete="CASCADE"/>
+  </table>
+  <table name="i98commerce_faq_answers" resource="default" engine="innodb" comment="Product Faqs Answer Table">
+    <column xsi:type="int" name="answer_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Id"/>
+    <column xsi:type="text" name="answer" nullable="false" comment="Answer"/>
+    <column xsi:type="int" name="faq_id" padding="10" unsigned="true" nullable="false" identity="false" comment="FAQ Id"/>
+    <column xsi:type="int" name="likes" padding="11" unsigned="false" nullable="false" identity="false" comment="Likes"/>
+    <column xsi:type="int" name="dislikes" padding="11" unsigned="false" nullable="false" identity="false" comment="DisLikes"/>
+    <column xsi:type="int" name="status" padding="10" unsigned="true" nullable="false" identity="false" comment="Status"/>
+    <column xsi:type="int" name="is_email" padding="10" unsigned="true" nullable="false" identity="false" comment="Is email sent"/>
+    <column xsi:type="text" name="answer_by" nullable="false" comment="Answer By"/>
+    <column xsi:type="text" name="user_email" nullable="true" comment="User Email"/>
+    <column xsi:type="int" name="user_id" padding="11" unsigned="false" nullable="true" identity="false" comment="User ID"/>
+    <column xsi:type="datetime" name="create_date" on_update="false" nullable="false" comment="Creation Date"/>
+    <constraint xsi:type="primary" referenceId="PRIMARY">
+      <column name="answer_id"/>
+    </constraint>
+    <constraint xsi:type="foreign" referenceId="I98COMMERCE_FAQ_IBFK_1_FAQ_ID_I98COMMERCE_FAQ_FAQ_ID" table="i98commerce_faq_answers" column="faq_id" referenceTable="i98commerce_faq" referenceColumn="faq_id" onDelete="CASCADE"/>
+  </table>
+</schema>

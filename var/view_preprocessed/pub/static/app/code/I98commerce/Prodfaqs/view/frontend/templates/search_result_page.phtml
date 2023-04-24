@@ -1,0 +1,41 @@
+<?php /** * Copyright © 2015 Magento. All rights reserved. * See COPYING.txt for license details. */ $searchData = $block->getFaqSearchDetail(); ?> <div class="faq_block" data-rating-role="rating-placeholder"><div id="rating-response"></div><ul id="<?= /* @noEscape */ 'accordion_element' ?>" <?php if ($block->isAccordionEnable()):?> data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": true}}' <?php endif; ?>><?php if (count($searchData) > 0): foreach ($searchData as $faq): ?> <li><div data-role="collapsible"><div class="accordion-toggle" data-role="trigger"><?= /* @noEscape */ $faq['title'] ?></div></div><div class="accordion-content" data-role="content"><p><?= /* @noEscape */ $faq['faq_answer'] ?></p><?php if ($block->isRatingEnable()) { ?> <div class="br-theme-css-stars"><select id="<?= /* @noEscape */ $faq['faq_id']; ?>" data-stars-role="<?= /* @noEscape */ (int) $faq['rating_stars']; ?>" data-customer-rate-readonly="<?= /* @noEscape */ $block->isCustomerReadonlyStars($faq['faq_id'])?>"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></div><?php } ?></div></li> <?php endforeach; else: ?> <div class="message notice"><div><?= /* @noEscape */ __('Your search returned no results.'); ?></div></div><?php endif; ?></ul></div><?php if ($block->isRatingEnable()) { ?> <script>
+        require([
+            'jquery',
+            'barrating'
+            ], function ($) {
+            $('.br-theme-css-stars select').barrating({
+                theme : 'css-stars',
+                onSelect : function(value, text, faq, event){
+                    if(typeof(event) !== undefined){
+                        $('#rating-response').text('');
+                        $.ajax({
+                            method: "POST",
+                            dataType: "json",
+                            url: "<?= /* @noEscape */ $block->getRatingAjaxUrl() ?>",
+                            data: { value: value, faq: faq }
+                        }).done(function( res ) {
+                            if(res.error === false){
+                                $('#rating-response').text(res.message);
+                                if($('#rating-response').hasClass('rate-fail')){
+                                    $('#rating-response').removeClass('rate-fail');
+                                }
+                                $('#rating-response').addClass('rate-success');
+                                $('#'+faq).barrating('readonly', true);
+                            }else{
+                                $('#rating-response').text(res.message);
+                                if($('#rating-response').hasClass('rate-success')){
+                                    $('#rating-response').removeClass('rate-success');
+                                }
+                                $('#rating-response').addClass('rate-fail');
+                            }
+                        });
+                    }
+                }
+            });
+        });</script><script type="text/x-magento-init">
+        {
+            "[data-rating-role=rating-placeholder]": {
+                "I98commerce_Prodfaqs/js/barrating":
+                {}
+            }
+        }</script><?php } ?>

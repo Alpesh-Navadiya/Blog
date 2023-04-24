@@ -1,0 +1,48 @@
+Magento 2.4.5
+
+/* Changes Start by Jigu */
+
+
+Change 'get' to 'create' when create object using objemanager.
+----------------------------------------------------------
+app/code/I98commerce/Prodfaqs/Block/Customer.php
+app/code/I98commerce/Prodfaqs/Controller/Adminhtml/Faqs/Filters.php
+app/code/I98commerce/Prodfaqs/Controller/Adminhtml/Faqs/Save.php
+app/code/I98commerce/Prodfaqs/Ui/Component/Listing/Column/Products/Product.php
+
+
+Set condition if exist value.
+-------------------------------------
+app/code/I98commerce/Prodfaqs/Block/Faqs.php add Line number 178,197
+app/code/I98commerce/Prodfaqs/Controller/Index/Rating.php add Line number 59
+app/code/I98commerce/Prodfaqs/Model/ResourceModel/Faqs.php add Line number 237 
+app/code/I98commerce/Prodfaqs/Model/Topic/DataProvider.php Line number 103
+
+
+Remove Parent Module I98commerce_Core
+---------------------------------------
+app/code/I98commerce/Prodfaqs/etc/adminhtml/menu.xml
+
+
+Add indexField id. becuase grid showing duplicate item
+--------------------------------------------------
+app/code/I98commerce/Prodfaqs/view/adminhtml/ui_component/prodfaqs_faqs_listing.xml
+app/code/I98commerce/Prodfaqs/view/adminhtml/ui_component/prodfaqs_topic_listing.xml
+
+
+Change accordian
+--------------------
+app/code/I98commerce/Prodfaqs/view/frontend/templates/main_page.phtml add line number 17 and comment 88
+app/code/I98commerce/Prodfaqs/view/frontend/templates/product_faqs_block.phtml add line number 535 and comment 731
+
+
+Add minus icon in accordian
+--------------------
+app/code/I98commerce/Prodfaqs/view/frontend/web/css/style.css add line number 32
+
+
+removed the objemanager from all files within the module.
+------------------------------------------------------------
+
+formatted the code in all of the template files.
+----------------------------------------------------------

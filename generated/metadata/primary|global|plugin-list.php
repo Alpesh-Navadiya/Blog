@@ -3876,6 +3876,23 @@
     'Magento\\WebapiAsync\\Controller\\Rest\\VirtualType\\AsynchronousBulkSchemaRequestProcessor' => NULL,
     'Magento\\Catalog\\Block\\Product\\Context' => NULL,
     'Magento\\Wishlist\\Block\\Context' => NULL,
+    'Magento\\Framework\\View\\Element\\UiComponent\\DataProvider\\FilterPool' => NULL,
+    'FaqsTopicGridFilterPool' => NULL,
+    'FaqsTopicGridDataProvider' => NULL,
+    'FaqsFaqsGridFilterPool' => NULL,
+    'FaqsProductsGridFilterPool' => NULL,
+    'I98commerce\\Prodfaqs\\Model\\ImageUploader' => NULL,
+    'I98commerce\\Prodfaqs\\ProdfaqsImageUpload' => NULL,
+    'FaqsFaqsGridDataProvider' => NULL,
+    'FaqsProductsGridDataProvider' => NULL,
+    'Know\\Grid\\Model\\ResourceModel\\Post\\Grid\\Collection' => 
+    array (
+      'currentPageDetection' => 
+      array (
+        'sortOrder' => 0,
+        'instance' => 'Magento\\Theme\\Plugin\\Data\\Collection',
+      ),
+    ),
     'Magento\\Framework\\ForeignKey\\Migration\\TableNameArrayIterator' => NULL,
     'OmsTableNameArrayIterator' => NULL,
     'Magento\\Payment\\Model\\SaleOperationInterface' => NULL,
@@ -7927,6 +7944,13 @@
     'Magento\\WebapiAsync\\Controller\\VirtualType\\Rest\\RequestValidator_validate___self' => 
     array (
       2 => 'rest_webapi_recaptcha_validation',
+    ),
+    'Know\\Grid\\Model\\ResourceModel\\Post\\Grid\\Collection_getCurPage___self' => 
+    array (
+      4 => 
+      array (
+        0 => 'currentPageDetection',
+      ),
     ),
     'Magento\\Framework\\DB\\Adapter\\AdapterInterface_commit___self' => 
     array (

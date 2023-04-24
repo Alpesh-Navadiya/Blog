@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="2columns-right" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="I98commerce_Prodfaqs::css/style.css" />
+        <css src="I98commerce_Prodfaqs::css/css-stars.css" />
+        <title>Faqs Search Results</title>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <block class="I98commerce\Prodfaqs\Block\Faqs" name="searchResultPage" template="I98commerce_Prodfaqs::search_result_page.phtml" />
+        </referenceContainer>
+    </body>
+</page>

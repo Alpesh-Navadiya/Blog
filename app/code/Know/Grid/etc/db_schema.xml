@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="know_grid">
+        <column xsi:type="int" name="g_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Faq ID"/>
+        <column xsi:type="text" name="title" nullable="true"  comment="FAQ"/>
+        <column xsi:type="smallint" name="status" padding="5" unsigned="true" nullable="false" identity="false" default="0" comment="Status"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="g_id"/>
+        </constraint>
+        <index referenceId="UNIT6_COMPUTER_GAME_NAME_TYPE" indexType="fulltext">
+            <column name="title"/>
+        </index>
+
+    </table>
+</schema>

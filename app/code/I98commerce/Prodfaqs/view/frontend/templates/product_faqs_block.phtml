@@ -1,0 +1,755 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+//echo $block->getAjaxLoader();exit;
+$mediaUrl = $block ->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+$faqsColection = $block->getProductPageFaqs($block->getProductId());
+$answerLengthAllowed = $block->allowedAnswerLength();
+$count = 1;
+?>
+<head>
+    <script>
+        require([
+            'jquery'
+            ], function ($) {
+            window.onload = function capt() {
+                var exists = document.getElementById("recaptcha");
+                var captachakey = "<?= /* @noEscape */ $block->getPublicKey()?>";
+                if(exists){
+                    widgetId1 = grecaptcha.render('recaptcha', {
+                        'sitekey' : captachakey,
+                        'theme' : 'light'
+                    });
+                    $('input[name^="faqs"]').each( function() {
+                        widgetId2 = grecaptcha.render(document.getElementById('recaptcha2'+this.value), {
+                            'sitekey' : captachakey
+                        });
+                    });
+                }
+                $("ul").each(function(n) {
+                    $("#ui-accordion-accordion_element-panel-"+n).css("height", 'auto');
+                });
+                $('input[name^="faqs"]').each( function() {
+                    var temp = this.value;
+                    $( "#i98commerce-ask-answer-form-wraper"+this.value).on('submit', function( event ) {
+                        var count = document.getElementById("count"+temp).value;
+                        var exists = document.getElementById("g-recaptcha-response-"+count);
+                        if(exists == null){
+                            var form = $( "#i98commerce-ask-answer-form"+temp );
+                            $("#progress-loader2"+temp).addClass('progress-loader2');
+                            $.ajax({
+                                method: "POST",
+                                dataType: "json",
+                                url: "<?= /* @noEscape */ $block->getAnswerPostUrl() ?>",
+                                data: form.serialize()
+                            }).done(function( res ) {
+                                if(res.error === false){
+                                    $('#faq-response2'+temp).text(res.message);
+                                    if($('#faq-response2'+temp).hasClass('rate-fail')){
+                                        $('#faq-response2'+temp).removeClass('rate-fail');
+                                    }
+                                    $('#faq-response2'+temp).addClass('rate-success');
+                                }else{
+                                    $('#faq-response2'+temp).text(res.message);
+                                    if($('#faq-response2'+temp).hasClass('rate-success')){
+                                        $('#faq-response2'+temp).removeClass('rate-success');
+                                    }
+                                    $('#faq-response2'+temp).addClass('rate-fail');
+                                }
+                                $("#progress-loader2"+temp).removeClass('progress-loader2');
+                            });
+                            event.preventDefault();
+                        }
+                        else{
+                            var check = document.getElementById("g-recaptcha-response-"+count).value;
+                            if(check=='' || check == null){
+                            }
+                            else{
+                                var form = $( "#i98commerce-ask-answer-form"+temp );
+                                $("#progress-loader2"+temp).addClass('progress-loader2');
+                                $.ajax({
+                                    method: "POST",
+                                    dataType: "json",
+                                    url: "<?= /* @noEscape */ $block->getAnswerPostUrl() ?>",
+                                    data: form.serialize()
+                                }).done(function( res ) {
+                                    if(res.error === false){
+                                        $('#faq-response2'+temp).text(res.message);
+                                        if($('#faq-response2'+temp).hasClass('rate-fail')){
+                                            $('#faq-response2'+temp).removeClass('rate-fail');
+                                        }
+                                        $('#faq-response2'+temp).addClass('rate-success');
+                                    }else{
+                                        $('#faq-response2'+temp).text(res.message);
+                                        if($('#faq-response2'+temp).hasClass('rate-success')){
+                                            $('#faq-response2'+temp).removeClass('rate-success');
+                                        }
+                                        $('#faq-response2'+temp).addClass('rate-fail');
+                                    }
+                                    $("#progress-loader2"+temp).removeClass('progress-loader2');
+                                });
+                                event.preventDefault();
+                            }
+                        }
+                    });
+                });
+            }
+function capt2() {
+    var exists = document.getElementById("recaptcha");
+    var captachakey = "<?= /* @noEscape */ $block->getPublicKey()?>";
+    if(exists){
+        $('input[name^="faqs"]').each( function() {
+            widgetId2 = grecaptcha.render(document.getElementById('recaptcha2'+this.value), {
+                'sitekey' : captachakey
+            });
+        });
+    }
+    $('input[name^="faqs"]').each( function() {
+        var temp = this.value;
+        $( "#i98commerce-ask-answer-form-wraper"+this.value).on('submit', function( event ) {
+            var myForm = document.getElementById("i98commerce-ask-answer-form"+temp);
+            var exists = myForm.elements[9].value;
+            var count = document.getElementById("count"+temp).value;
+            if(exists == null){
+                var form = $( "#i98commerce-ask-answer-form"+temp );
+                $("#progress-loader2"+temp).addClass('progress-loader2');
+                $.ajax({
+                    method: "POST",
+                    dataType: "json",
+                    url: "<?= /* @noEscape */ $block->getAnswerPostUrl() ?>",
+                    data: form.serialize()
+                }).done(function( res ) {
+                    if(res.error === false){
+                        $('#faq-response2'+temp).text(res.message);
+                        if($('#faq-response2'+temp).hasClass('rate-fail')){
+                            $('#faq-response2'+temp).removeClass('rate-fail');
+                        }
+                        $('#faq-response2'+temp).addClass('rate-success');
+                    }else{
+                        $('#faq-response2'+temp).text(res.message);
+                        if($('#faq-response2'+temp).hasClass('rate-success')){
+                            $('#faq-response2'+temp).removeClass('rate-success');
+                        }
+                        $('#faq-response2'+temp).addClass('rate-fail');
+                    }
+                    $("#progress-loader2"+temp).removeClass('progress-loader2');
+                });
+                event.preventDefault();
+            }
+            else{
+                var check = exists;
+                if(check=='' || check == null){
+                }
+                else{
+                    var form = $( "#i98commerce-ask-answer-form"+temp );
+                    $("#progress-loader2"+temp).addClass('progress-loader2');
+                    $.ajax({
+                        method: "POST",
+                        dataType: "json",
+                        url: "<?= /* @noEscape */ $block->getAnswerPostUrl() ?>",
+                        data: form.serialize()
+                    }).done(function( res ) {
+                        if(res.error === false){
+                            $('#faq-response2'+temp).text(res.message);
+                            if($('#faq-response2'+temp).hasClass('rate-fail')){
+                                $('#faq-response2'+temp).removeClass('rate-fail');
+                            }
+                            $('#faq-response2'+temp).addClass('rate-success');
+                        }else{
+                            $('#faq-response2'+temp).text(res.message);
+                            if($('#faq-response2'+temp).hasClass('rate-success')){
+                                $('#faq-response2'+temp).removeClass('rate-success');
+                            }
+                            $('#faq-response2'+temp).addClass('rate-fail');
+                        }
+                        $("#progress-loader2"+temp).removeClass('progress-loader2');
+                    });
+                    event.preventDefault();
+                }
+            }
+        });
+    });
+}
+$('#jumpMenu').on('change', function() {
+    var proid = "<?= /* @noEscape */ $block->getProductId()?>";
+    var sortbyarrow = $('#sortby').val();
+    var ajaxloader = "<?= /* @noEscape */ $mediaUrl."prodfaqs/ajax/".$block->getAjaxLoader()?>";
+    $("#data-loader").css("background", "url("+ajaxloader+") no-repeat");
+    $("#data-loader").addClass('data-loader');
+    $.ajax({
+        method: "POST",
+        dataType: "json",
+        url: "<?= /* @noEscape */ $block->getAjaxUrl() ?>",
+        data: { value: this.value , proid: proid , sortbyarrow: sortbyarrow}
+    }).done(function( res ) {
+        //alert(res.Data);
+        //capt2();
+        $("#data-loader").removeClass('data-loader');
+        $('#ajax').html('');
+        $('#ajax').html(res.Data);
+        capt2();
+        if(res.error === false){
+            // alert(res.error);
+        }
+        else{
+            // alert(res.message);
+        }
+    });
+})
+$( "#sortby" ).on( "click", function() {
+    if(document.getElementById("sortby").className == 'sortbyasc'){
+        $('#sortby').attr('title','Descending');
+        document.getElementById('sortby').classList.add('sortbydesc');
+        document.getElementById('sortby').classList.remove('sortbyasc');
+        document.getElementById('sortby').value = 'desc';
+        var val1 = document.getElementById('jumpMenu').value
+        var proid = "<?= /* @noEscape */ $block->getProductId()?>";
+        var sortbyarrow = 'desc';
+        var ajaxloader = "<?= /* @noEscape */ $mediaUrl."prodfaqs/ajax/".$block->getAjaxLoader()?>";
+        $("#data-loader").css("background", "url("+ajaxloader+") no-repeat");
+        $("#data-loader").addClass('data-loader');
+        $.ajax({
+            method: "POST",
+            dataType: "json",
+            url: "<?= /* @noEscape */ $block->getAjaxUrl() ?>",
+            data: { value: this.value , proid: proid , sortbyarrow: sortbyarrow}
+        }).done(function( res ) {
+            //alert(res.Data);
+            $("#data-loader").removeClass('data-loader');
+            $('#ajax').html('');
+            $('#ajax').html(res.Data);
+            capt2();
+            if(res.error === false){
+                //alert(res.error);
+            }
+            else{
+                // alert(res.message);
+            }
+        });
+    }
+    else if(document.getElementById("sortby").className == 'sortbydesc'){
+        document.getElementById('sortby').classList.add('sortbyasc');
+        document.getElementById('sortby').classList.remove('sortbydesc');
+        document.getElementById('sortby').value = 'asc';
+        $('#sortby').attr('title','Ascending');
+        var val1 = document.getElementById('jumpMenu').value
+        var proid = "<?= /* @noEscape */ $block->getProductId()?>";
+        var sortbyarrow = 'asc';
+        var ajaxloader = "<?= /* @noEscape */ $mediaUrl."prodfaqs/ajax/".$block->getAjaxLoader()?>";
+        $("#data-loader").css("background", "url("+ajaxloader+") no-repeat");
+        $("#data-loader").addClass('data-loader');
+        $.ajax({
+            method: "POST",
+            dataType: "json",
+            url: "<?= /* @noEscape */ $block->getAjaxUrl() ?>",
+            data: { value: val1 , proid: proid , sortbyarrow: sortbyarrow}
+        }).done(function( res ) {
+            // alert(res.Data);
+            $("#data-loader").removeClass('data-loader');
+            $('#ajax').html('');
+            $('#ajax').html(res.Data);
+            capt2();
+            if(res.error === false){
+            }
+            else{
+            }
+        });
+    }
+});
+});
+</script>
+</head>
+<div class="faq_block" data-rating-role="rating-placeholder">
+    <div id="rating-response"></div>
+    <h2 style="text-align: left;float: left;"><?= /* @noEscape */ $block->getProductFaqsHeading(); ?></h2>
+    <?php if ($block->isAskQuestionEnable() && $block->isAskQuestionAllowed()): ?>
+    <div class="ask-question-form <?php if ($block->openFormPopupSlide() != 'slide'): ?> mfp-hide white-popup-block <?php endif ?>" id="i98commerce-ask-question-form-wraper" style="<?php if ($block->openFormPopupSlide() == 'slide'): ?> display:none <?php endif ?>" >
+        <form action="<?= /* @noEscape */ $block->getFaqPostUrl() ?>" id="i98commerce-ask-question-form" name="i98commerce-ask-question-form" onsubmit="return myFunction()" method="post" enctype="multipart/form-data" class="review-form">
+            <input name="status" id="status" value="0" type="hidden"  />
+            <input name="product_id" id="product_id" value="<?= /* @noEscape */ $block->getProductId(); ?>" type="hidden"  />
+            <input name="question_type" id="question_type" value="product_question" type="hidden"  />
+            <input name="product_url" id="product_url" value="<?= /* @noEscape */ $block->getProductUrl(); ?>" type="hidden"  />
+            <input name="product_name" id="product_name" value="<?= /* @noEscape */ $block->getProductName(); ?>" type="hidden"  />
+            <div class="fieldset">
+                <h2 class="legend"><?= /* @noEscape */ __('Ask a Question') ?></h2>
+                <div id="faq-response" class=""></div>
+                <div class="field required">
+                    <label for="customer_name" class="label"><?= /* @noEscape */ __('Name') ?></label>
+                    <div class="control">
+                        <input name="customer_name" id="customer_name" title="<?= /* @noEscape */ __('Customer Name ') ?>" value="<?php if ( /* @noEscape */ $block->getLoginId()) {echo $block->getLoginName();} ?>" class="input-text" data-validate="{required:true}" type="text" />
+                    </div>
+                </div>
+                <div class="field required">
+                    <label for="customer_email"  class="label"><?= /* @noEscape */ __('Email') ?></label>
+                    <div class="control">
+                        <input name="customer_email" id="customer_email" title="<?= /* @noEscape */ __('Customer Email') ?>" value="<?php if (/* @noEscape */ $block->getLoginId()) {echo $block->getLoginEmail();}?>" class="input-text" data-validate="{required:true, 'validate-email':true}" type="text" />
+                    </div>
+                </div>
+                <div class="field required">
+                    <label for="question" class="label"><?= /* @noEscape */ __('Question') ?></label>
+                    <div class="control">
+                        <textarea name="question" id="question" title="<?= /* @noEscape */ __('Question') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                    </div>
+                </div>
+                <input type="checkbox" name="isprivate">
+                <label for="typee" style="font-weight: bold;" class="label"><?= /* @noEscape */ __('Private Question') ?></label>
+                <br><br><br>
+                <?php if ($block->isCaptchaEnable()):
+                    ?>
+                    <div  name="recaptcha" id="recaptcha"></div>
+                    <br><br><br>
+                <?php endif; ?>
+                <button  type="submit"  title="<?= /* @noEscape */ __('Submit') ?>" class="button"><span><?= /* @noEscape */ __('Submit') ?></span></button>
+                <span id="progress-loader"></span>
+                <input type="hidden" name="custid" value="<?php if (/* @noEscape */ $block->getLoginId()) { echo /* @noEscape */ $block->getLoginId(); } ?>">
+            </div>
+            <div class="clear"></div>
+        </form>
+        <script>
+            require([
+                'jquery',
+                'mage/mage'
+                ], function($){
+                var dataForm = $('#i98commerce-ask-question-form');
+                var ignore = null;
+                dataForm.mage('validation', {
+                    ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+                }).find('input:text').attr('autocomplete', 'off');
+            });
+        </script>
+        </div>
+        <?php if ($block->openFormPopupSlide() == 'slide'): ?>
+            <p class="faqsaddslide" >
+                <a class="btn-slide add_question" style="color: white;text-decoration: none;" title="<?= /* @noEscape */ __('Ask a Question') ?>" id="i98commerce-faq-btn-slide-open" href="javascript: " onclick="if(jQuery('#i98commerce-ask-question-form-wraper').css('display') == 'none'){ jQuery('#i98commerce-ask-question-form-wraper').slideDown() }else{ jQuery('#i98commerce-ask-question-form-wraper').slideUp(); }" ><?= /* @noEscape */ __('Ask a Question'); ?></a>
+            </p>
+        <?php else: ?>
+            <p class="faqsaddslide " >
+                <a style="color: white;text-decoration: none;"   class="btn-slide popup-with-form add_question" title="<?= /* @noEscape */ __('Ask a Question') ?>" id="i98commerce-faq-btn-popup-open" href="#i98commerce-ask-question-form-wraper" ><?= /* @noEscape */ __('Ask a Question'); ?></a>
+            </p>
+        <?php endif; ?>
+        <?php endif; ?>
+        <hr style="clear:both;"/>
+        <div class="sort_by">
+            <form name="form" id="form">
+                Sort by &nbsp;&nbsp;
+                <select name="jumpMenu" id="jumpMenu" >
+                    <option value="0">Rating</option>
+                    <option value="1">Date</option>
+                </select>
+                <a href="javascript:void(0)" id="sortby" value="asc" title="Ascending"  onclick=""  class="sortbyasc">
+                </a>
+            </form>
+        </div>
+        <div class="" name="data-loader" id="data-loader"> </div>
+        <div name="ajax" class="ajax" id="ajax">
+            <ul id="<?= /* @noEscape */ 'accordion_element' ?>" <?php if ($block->isAccordionEnable()):?>
+            data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": true}}' <?php endif; ?> >
+            <?php
+            if ($faqsColection->count() > 0) {
+                foreach ($faqsColection as $faq) {
+                    $faqanswers = $block->getfaqanswers($faq->getId());
+                    ?>
+                    <li><div data-role="collapsible">
+                        <div class="accordion-toggle" data-role="trigger"><?= /* @noEscape */ $faq->getTitle(); ?>
+                        <?php if ($block->isRatingEnable()) { ?>
+                            <div class="br-theme-css-stars" style="float: right;">
+                                <select id="<?= /* @noEscape */ $faq->getId(); ?>" data-stars-role="<?= /* @noEscape */ (int) $faq->getRatingStars(); ?>" data-customer-rate-readonly="<?= /* @noEscape */ $block->isCustomerReadonlyStars($faq->getId())?>">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+                <div  class="accordion-content" data-role="content" >
+                    <div class="answered_by">Question by: <?= /* @noEscape */ $faq->getQuestion_by(); ?> on <?= /* @noEscape */ $faq->getCreate_date(); ?></div>
+                    <?php
+                    foreach ($faqanswers as $ans) {
+                        ?>
+                        <div class="add_thread1">
+                            <p>
+                                <?php
+                                $answer = /* @noEscape */ $ans['answer'];
+                                if ($answerLengthAllowed == 0 || (strlen($answer) <= $answerLengthAllowed)):
+                                    echo $answer;
+                                else:
+                                    echo substr($answer, 0, $answerLengthAllowed).' <a title="'."View Detail".'" href="'.$block->getFaqUrl($faq).'">...</a>';
+                                endif;
+                                ?>
+                            </p>
+                            <div  class="answered_by">Answer by: <?= /* @noEscape */ $ans['answer_by']; ?> on <?= /* @noEscape */ $ans['create_date']; ?></div>
+                            <?php if ($block->isLikesEnable()) { ?>
+                                <div style="<?php if (!$block->isLikesAllowed() || $block->isCustomerReadonlyLikes($ans['answer_id'])) { echo 'pointer-events: none'; }?>" class="js-rating" data-ans="<?= /* @noEscape */ $ans['answer_id']; ?>" data-like="<?= /* @noEscape */ $ans['likes']; ?>" data-dislike="<?= /* @noEscape */ $ans['dislikes']; ?>"></div>
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
+                    <!-- Answer form -->
+                    <?php if ($block->isAskAnswerEnable() && $block->isAskAnswerAllowed()): ?>
+                    <div class="ask-answer-form mfp-hide white-popup-block " id="i98commerce-ask-answer-form-wraper<?= /* @noEscape */ $faq->getId(); ?>" style=""  >
+                        <form action="javascript:void(0);" id="i98commerce-ask-answer-form<?= /* @noEscape */ $faq->getId(); ?>" name="i98commerce-ask-answer-form<?= /* @noEscape */ $faq->getId(); ?>" onsubmit="return myFunction2(<?= /* @noEscape */ $faq->getId(); ?>)" method="post" enctype="multipart/form-data" class="review-form">
+                            <input name="status" id="status" value="0" type="hidden"  />
+                            <input name="faq_id" id="faq_id" value="<?= /* @noEscape */ $faq->getID(); ?>" type="hidden"  />
+                            <input type="hidden" name="faqs[]" value="<?= /* @noEscape */ $faq->getID(); ?>">
+                            <input type="hidden" name="count<?= /* @noEscape */ $faq->getId(); ?>" id="count<?= /* @noEscape */ $faq->getId(); ?>" value="<?= /* @noEscape */ $count; ?>">
+                            <input name="faq_question" id="faq_question" value="this is question ?" type="hidden"  />
+                            <input name="product_url" id="product_url" value="<?= /* @noEscape */ $block->getProductUrl(); ?>" type="hidden"  />
+                            <div class="fieldset">
+                                <h2 class="legend"><?= /* @noEscape */ __('Add answer') ?></h2>
+                                <div id="faq-response2<?= /* @noEscape */  $faq->getID(); ?>" class=""></div>
+                                <div class="field required">
+                                    <label for="customer_name" class="label"><?= /* @noEscape */ __('Name') ?></label>
+                                    <div class="control customer_name">
+                                        <input name="customer_name" id="customer_name" title="<?= /* @noEscape */ __('Customer Name ') ?>" value="<?php if ( /* @noEscape */ $block->getLoginId()) {echo $block->getLoginName();} ?>" class="input-text" data-validate="{required:true}" type="text" />
+                                    </div>
+                                </div>
+                                <div class="field required">
+                                    <label for="customer_email"  class="label"><?= /* @noEscape */ __('Email') ?></label>
+                                    <div class="control">
+                                        <input name="customer_email" id="customer_email" title="<?= /* @noEscape */ __('Customer Email') ?>" value="<?php if ( /* @noEscape */ $block->getLoginId()) {echo $block->getLoginEmail();}?>" class="input-text" data-validate="{required:true, 'validate-email':true}" type="text" />
+                                    </div>
+                                </div>
+                                <div class="field required">
+                                    <label for="answer" class="label"><?= /* @noEscape */ __('Answer') ?></label>
+                                    <div class="control">
+                                        <textarea name="answer" id="answer" title="<?= /* @noEscape */ __('Answer') ?>" class="input-text" cols="5" rows="3" data-validate="{required:true}"></textarea>
+                                    </div>
+                                </div>
+                                <?php if ($block->isCaptchaEnable()):
+                                    ?>
+                                    <div  name="recaptcha2" id="recaptcha2<?= /* @noEscape */ $faq->getId(); ?>"></div>
+                                    <br><br><br>
+                                <?php endif; ?>
+                                <button  type="submit" onclick="" id="<?= /* @noEscape */  $faq->getID(); ?>" value="<?= /* @noEscape */  $count; ?>" title="<?= /* @noEscape */ __('Submit') ?>" class="button"><span><?= /* @noEscape */ __('Submit') ?></span></button>
+                                <span style="padding-left: 30px;" id="progress-loader2<?= /* @noEscape */  $faq->getID(); ?>"></span>
+                                <input type="hidden" name="custid" value="<?= /* @noEscape */ $block->getLoginId(); ?>">
+                                <?php $count++; ?>
+                            </div>
+                            <div class="clear"></div>
+                        </form>
+                        <script>
+                            require([
+                                'jquery',
+                                'mage/mage'
+                                ], function($){
+                                var dataForm = $('#i98commerce-ask-answer-form');
+                                var ignore = null;
+                                dataForm.mage('validation', {
+                                    ignore: ignore ? ':hidden:not(' + ignore + ')' : ':hidden'
+                                }).find('input:text').attr('autocomplete', 'off');
+                            });
+                        </script>
+                    </div>
+                        <?php if ($block->openFormPopupSlide() == 'slide'): ?>
+                        <p class="faqsaddslide add_answer" >
+                            <a class="btn-slide popup-with-form" title="<?= /* @noEscape */ __('Add answer') ?>" id="i98commerce-faq-btn-popup-open" href="#i98commerce-ask-answer-form-wraper<?= /* @noEscape */ $faq->getId(); ?>" ><?= /* @noEscape */ __('Add answer'); ?></a>
+                        </p>
+                        <?php else: ?>
+                        <p class="faqsaddslide add_answer" >
+                            <a class="btn-slide popup-with-form" title="<?= /* @noEscape */ __('Add answer') ?>" id="i98commerce-faq-btn-popup-open" href="#i98commerce-ask-answer-form-wraper<?= /* @noEscape */ $faq->getId(); ?>" ><?= /* @noEscape */ __('Add answer'); ?></a>
+                        </p>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </div>
+        </li>
+                    <?php
+                }
+            } else {
+                ?>
+    <div class="message notice">
+        <div>
+                <?= /* @noEscape */ __('There are no faqs for this topic.');  ?>
+        </div>
+    </div>
+                <?php
+            }
+            ?>
+</ul>
+</div>
+</div>
+<!--Question Form Starts-->
+<!--Question Form Ends-->
+<!--Answer Form Ends-->
+<?php if ($block->isRatingEnable()) { ?>
+    <script>
+        require([
+            'jquery',
+            'barrating'
+            ], function ($) {
+            $('.br-theme-css-stars select').barrating({
+                theme : 'css-stars',
+                initialRating : true,
+                onSelect : function(value, text, faq, event){
+                    if(typeof(event) !== undefined){
+                        $('#rating-response').text('');
+//call ajax and save the rating for that FAQ
+                        $.ajax({
+                            method: "POST",
+                            dataType: "json",
+                            url: "<?= /* @noEscape */ $block->getRatingAjaxUrl() ?>",
+                            data: { value: value, faq: faq }
+                        }).done(function( res ) {
+                            if(res.error === false){
+                                $('#rating-response').text(res.message);
+                                if($('#rating-response').hasClass('rate-fail')){
+                                    $('#rating-response').removeClass('rate-fail');
+                                }
+                                $('#rating-response').addClass('rate-success');
+//make these stars readonly now
+                                $('#'+faq).barrating('readonly', true);
+                            }else{
+                                $('#rating-response').text(res.message);
+                                if($('#rating-response').hasClass('rate-success')){
+                                    $('#rating-response').removeClass('rate-success');
+                                }
+                                $('#rating-response').addClass('rate-fail');
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+<script type="text/x-magento-init">
+    {
+        "[data-rating-role=rating-placeholder]": {
+            "I98commerce_Prodfaqs/js/barrating":
+            {}
+        }
+    }
+</script>
+<!-- ----------------------------------------------------------------------------    -->
+<script>
+    require([
+        'jquery',
+        'I98commerce_Prodfaqs/js/jquery.thumbs'
+        ], function ($) {
+        $('.js-rating-simple').thumbs();
+        $('.js-rating').thumbs({
+            onLike: function (value,value2,faq) {
+                $.ajax({
+                    method: "POST",
+                    dataType: "json",
+                    url: "<?= /* @noEscape */ $block->getLikesAjaxUrl() ?>",
+                    data: { value: value, value2: value2 ,faq: faq}
+                }).done(function( res ) {
+                    if(res.error === false){
+                        $('#rating-response').text(res.message);
+                        if($('#rating-response').hasClass('rate-fail')){
+                            $('#rating-response').removeClass('rate-fail');
+                        }
+                        $('#rating-response').addClass('rate-success');
+                    }
+                    else{
+                        $('#rating-response').text(res.message);
+                        if($('#rating-response').hasClass('rate-success')){
+                            $('#rating-response').removeClass('rate-success');
+                        }
+                        $('#rating-response').addClass('rate-fail');
+                    }
+                });
+            },
+            onDislike: function(value,value2,faq) {
+                $.ajax({
+                    method: "POST",
+                    dataType: "json",
+                    url: "<?= /* @noEscape */ $block->getLikesAjaxUrl() ?>",
+                    data: { value: value2, value2: value ,faq: faq}
+                }).done(function( res ) {
+                    if(res.error === false){
+                        $('#rating-response').text(res.message);
+                        if($('#rating-response').hasClass('rate-fail')){
+                            $('#rating-response').removeClass('rate-fail');
+                        }
+                        $('#rating-response').addClass('rate-success');
+                    }
+                    else{
+                        $('#rating-response').text(res.message);
+                        if($('#rating-response').hasClass('rate-success')){
+                            $('#rating-response').removeClass('rate-success');
+                        }
+                        $('#rating-response').addClass('rate-fail');
+                    }
+                });
+            }
+        });
+    });
+</script>
+<?php } ?>
+<?php if (($block->isAskQuestionEnable() && $block->isAskQuestionAllowed()) || ($block->isAskAnswerEnable() && $block->isAskAnswerAllowed())) { ?>
+    <script type="text/x-magento-init">
+        {
+            "[data-role=popup]": {
+                "I98commerce_Prodfaqs/js/mobile":
+                {}
+            }
+        }
+    </script>
+    <script>
+    require([
+        'jquery',
+        'mobile'], function ($) {
+        $('.popup-with-form').magnificPopup({
+            type: 'inline',
+            preloader: false,
+            focus: '#name',
+            callbacks: {
+                beforeOpen: function() {
+                    if($(window).width() < 700) {
+                        this.st.focus = false;
+                    } else {
+                        this.st.focus = '#name';
+                    }
+                }
+            }
+        });
+    });
+    require([
+        'jquery'
+        ], function ($) {
+        $( "#i98commerce-ask-question-form-wraper" ).on('submit', function( event ) {
+            var exists = document.getElementById("g-recaptcha-response");
+            if(exists == null){
+                var form = $( "#i98commerce-ask-question-form" );
+                $("#progress-loader").addClass('progress-loader');
+                $.ajax({
+                    method: "POST",
+                    dataType: "json",
+                    url: "<?= /* @noEscape */ $block->getFaqPostUrl() ?>",
+                    data: form.serialize()
+                }).done(function( res ) {
+                    if(res.error === false){
+                        $('#faq-response').text(res.message);
+                        if($('#faq-response').hasClass('rate-fail')){
+                            $('#faq-response').removeClass('rate-fail');
+                        }
+                        $('#faq-response').addClass('rate-success');
+                    }else{
+                        $('#faq-response').text(res.message);
+                        if($('#faq-response').hasClass('rate-success')){
+                            $('#faq-response').removeClass('rate-success');
+                        }
+                        $('#faq-response').addClass('rate-fail');
+                    }
+                    $("#progress-loader").removeClass('progress-loader');
+                });
+                event.preventDefault();
+            }
+            else{
+                var check = document.getElementById("g-recaptcha-response").value;
+                if(check=='' || check == null){
+                }
+                else{
+                    var form = $( "#i98commerce-ask-question-form" );
+                    $("#progress-loader").addClass('progress-loader');
+                    $.ajax({
+                        method: "POST",
+                        dataType: "json",
+                        url: "<?= /* @noEscape */ $block->getFaqPostUrl() ?>",
+                        data: form.serialize()
+                    }).done(function( res ) {
+                        if(res.error === false){
+                            $('#faq-response').text(res.message);
+                            if($('#faq-response').hasClass('rate-fail')){
+                                $('#faq-response').removeClass('rate-fail');
+                            }
+                            $('#faq-response').addClass('rate-success');
+                        }else{
+                            $('#faq-response').text(res.message);
+                            if($('#faq-response').hasClass('rate-success')){
+                                $('#faq-response').removeClass('rate-success');
+                            }
+                            $('#faq-response').addClass('rate-fail');
+                        }
+                        $("#progress-loader").removeClass('progress-loader');
+                    });
+                    event.preventDefault();
+                }
+            }
+        });
+    });
+    function myFunction() {
+        var exists = document.getElementById("g-recaptcha-response");
+        if(exists == null){
+        }
+        else{
+            var check = document.getElementById("g-recaptcha-response").value;
+            if(check=='' || check == null){
+                document.getElementById("recaptcha").style.border = "1px solid #ea0e0e";
+                return false;
+            }
+            else{
+                document.getElementById("recaptcha").style.border = "none";
+                return true;
+            }
+        }
+    }
+    function myFunction2(val) {
+        var count = document.getElementById("count"+val).value;
+        var exists = document.getElementById("g-recaptcha-response-"+count);
+        if(exists == null){
+        }
+        else{
+            document.getElementById("recaptcha2"+val).style.display ="inline-block";
+            var check = document.getElementById("g-recaptcha-response-"+count).value;
+            if(check=='' || check == null){
+                document.getElementById("recaptcha2"+val).style.border = "1px solid #ea0e0e";
+            }
+            else{
+                document.getElementById("recaptcha2"+val).style.border = "none";
+            }
+            var myForm = document.getElementById("i98commerce-ask-answer-form"+val);
+            if(myForm.elements[6].value == '' || myForm.elements[5].value == null){
+                document.getElementById("customer_name").style.border = "1px solid #ea0e0e";
+            }
+            else{
+                document.getElementById("customer_name").style.border = "1px solid #c2c2c2";
+            }
+            if(myForm.elements[7].value == '' || !validateForm(myForm.elements[7].value)){
+                document.getElementById("customer_email").style.border = "1px solid #ea0e0e";
+            }
+            else{
+                document.getElementById("customer_email").style.border = "1px solid #c2c2c2";
+            }
+            if(myForm.elements[8].value == '' || myForm.elements[8].value == null){
+                document.getElementById("answer").style.border = "1px solid #ea0e0e";
+            }
+            else{
+                document.getElementById("answer").style.border = "1px solid #c2c2c2";
+            }
+            if(check=='' || myForm.elements[6].value == '' || myForm.elements[7].value == '' || myForm.elements[8].value == '' || !validateForm(myForm.elements[7].value)){
+                return false;
+            }
+            else{
+                return true;
+            }
+        }
+        return false;
+    }
+    function validateForm(email) {
+        var x = email;
+        var atpos = x.indexOf("@");
+        var dotpos = x.lastIndexOf(".");
+        if (atpos<1 || dotpos<atpos+2 || dotpos+2>=x.length) {
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+</script>
+<?php } ?>
+<style type="text/css">
+    #recaptcha {
+    display: inline-block;
+    position: relative;
+    }
+    #recaptcha2 {
+    display: inline-block;
+    position: relative;
+    }
+</style>

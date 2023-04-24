@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Know_Grid::kgrid" title="Vendor" module="Know_Grid" sortOrder="10"
+             resource="Know_Grid::kgrid"/>
+        <add id="Know_Grid::grid" title="Manage Grid" module="Know_Grid" sortOrder="10"
+             action="kgrid/index/index" resource="Know_Grid::grid" parent="Know_Grid::kgrid"/>
+    </menu>
+</config>

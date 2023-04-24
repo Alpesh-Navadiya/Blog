@@ -1,0 +1,77 @@
+<?php
+namespace I98commerce\Prodfaqs\Ui\Component\Form\Fieldset;
+
+use Magento\Framework\View\Element\UiComponent\ContextInterface;
+use Magento\Framework\View\Element\UiComponentInterface;
+use Magento\Ui\Component\Form\FieldFactory;
+use Magento\Ui\Component\Form\Fieldset as BaseFieldset;
+
+class Fieldset extends BaseFieldset
+{
+    /**
+     * @var FieldFactory
+     */
+    private $fieldFactory;
+
+    /**
+     * Desc
+     *
+     * @param ContextInterface $context
+     * @param FieldFactory $fieldFactory
+     * @param array $components
+     * @param array $data
+     */
+    public function __construct(
+        ContextInterface $context,
+        FieldFactory $fieldFactory,
+        array $components = [],
+        array $data = []
+    ) {
+
+        parent::__construct($context, $components, $data);
+        $this->fieldFactory = $fieldFactory;
+    }
+
+    /**
+     * Get components
+     *
+     * @return UiComponentInterface[]
+     */
+    public function getChildComponents()
+    {
+        $fields = [
+            [
+                'label' => __('Field Label From Code'),
+                'value' => __('Field Value From Code'),
+                'formElement' => 'textarea',
+            ],
+            [
+                'label' => __('Another Field Label From Code'),
+                'value' => __('Another Field Value From Code'),
+                'formElement' => 'textarea',
+            ],
+            [
+                'label' => __('Yet Another Field Label From Code'),
+                'value' => __('Yet Another Field Value From Code'),
+                'formElement' => 'textarea',
+            ]
+        ];
+
+        foreach ($fields as $k => $fieldConfig) {
+            $fieldInstance = $this->fieldFactory->create();
+            $name = 'my_dynamic_field_' . $k;
+
+            $fieldInstance->setData(
+                [
+                    'config' => $fieldConfig,
+                    'name' => $name
+                ]
+            );
+
+            $fieldInstance->prepare();
+            $this->addComponent($name, $fieldInstance);
+        }
+
+        return parent::getChildComponents();
+    }
+}

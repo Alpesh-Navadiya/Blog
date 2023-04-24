@@ -1036,6 +1036,23 @@ require.config(config);
 })();
 (function() {
 /**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+var config = {
+    map: {
+        '*': {
+            barrating:           'I98commerce_Prodfaqs/js/barrating',
+            mobile:           'I98commerce_Prodfaqs/js/mobile'
+        }
+    }
+};
+
+require.config(config);
+})();
+(function() {
+/**
  * Config to pull in all the relevant Braintree JS SDKs
  * @type {{paths: {braintreePayPalInContextCheckout: string, braintreePayPalCheckout: string, braintreeVenmo: string, braintreeHostedFields: string, braintreeDataCollector: string, braintreeThreeDSecure: string, braintreeGooglePay: string, braintreeApplePay: string, braintreeAch: string, braintreeLpm: string, googlePayLibrary: string}, map: {"*": {braintree: string}}}}
  */
