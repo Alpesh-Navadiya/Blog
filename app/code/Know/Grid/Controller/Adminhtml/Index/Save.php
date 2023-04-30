@@ -37,6 +37,7 @@ class Save extends Action
             return $resultPageFactory->setPath('*/*/index');
         }
         $data = $this->getRequest()->getPostValue();
+
         try {
             if ($data) {
                 $model = $this->PostFactory->create();
@@ -50,6 +51,7 @@ class Save extends Action
                 if ($buttondata == 'close') {
                     return $resultPageFactory->setPath('*/*/index');
                 }
+
                 $id = $model->getId();
 
                 return $resultPageFactory->setPath('*/*/form', ['id' => $id]);

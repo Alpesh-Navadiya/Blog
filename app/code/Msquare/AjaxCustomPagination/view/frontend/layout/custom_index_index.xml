@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category Msquare AjaxCustomPagination
+ * @package Msquare_AjaxCustomPagination
+ * @author Mahesh Makwana <maheshmakwana588@gmail.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<update handle="customer_account"/>
+	 <head>
+    	<script src="Msquare_AjaxCustomPagination::js/ajax_pagination.js" />
+    </head>
+	<body>
+		<referenceContainer name="content">
+			<block class="Msquare\AjaxCustomPagination\Block\Pager" name="custom.ajax.pagination" template="Msquare_AjaxCustomPagination::pager.phtml" cacheable="false" />
+		</referenceContainer>
+	</body>
+</page>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Know_Blog::content_elements"
+             title="Mage Mastery Blog"
+             translate="title"
+             module="Know_Blog"
+             sortOrder="10"
+             parent="Magento_Backend::content"
+             resource="Magento_Backend::admin"/>
+        <add id="Know_Blog::post"
+             title="Manage Posts"
+             translate="title"
+             module="Know_Blog"
+             sortOrder="0"
+             parent="Know_Blog::content_elements"
+             action="magemastery_blog/post"
+             resource="Magento_Backend::admin"/>
+    </menu>
+</config>

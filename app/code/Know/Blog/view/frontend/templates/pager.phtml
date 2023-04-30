@@ -1,0 +1,132 @@
+<?php
+/**
+ * @category Msquare AjaxCustomPagination
+ * @package Msquare_AjaxCustomPagination
+ * @author Mahesh Makwana <maheshmakwana588@gmail.com>
+ */
+?>
+<?php $custom_data = $block->getCustomData();
+     ?>
+<?php if(!$block->getData('ajax_data')): ?>
+    <div class="custom-ajax-data">
+<?php endif; ?>
+
+    <fieldset class="fieldset">
+        <?php if(count($custom_data)): ?>
+            <div class="table-wrapper custom-data ">
+                    <div class="content4" style="display:none";>
+                        <p>Content goes here</p>
+                    </div>
+
+                <table class="data table table-data-items ">
+                    <caption class="table-caption"><?= $block->escapeHtml('Custom Pagination') ?></caption>
+                    <thead>
+                    <tr>
+                        <th scope="col" class="col name"><?= $block->escapeHtml('Name') ?></th>
+                        <th scope="col" class="col orders"><?= $block->escapeHtml('Email') ?></th>
+                        <th scope="col" class="col orderitem"><?= $block->escapeHtml('Description') ?></th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($custom_data as $item):  ?>
+                        <tr>
+                            <td data-th="Name" class="col name">
+                                <span><?= $block->escapeHtml($item['post_id']) ?></span>
+                            </td>
+                            <td data-th="Orders" class="col orders">
+                                <span><?= $block->escapeHtml($item['title']) ?></span>
+                            </td>
+                            <td data-th="Items" class="col orderitem">
+                                <span><?= $block->escapeHtml($item['content']) ?></span>
+                            </td>
+                            <td colspan="3">
+                            <td>
+                                <a href="<?= $block->getEditPageUrl().'id/'.$item['post_id'];?>">Edit </a>
+                                <a id="click-section" class="delete_hero" data-id="<?php echo $item['post_id']; ?>"  href="javascript:void(0)">
+                                    Delete
+                                </a>
+                                 <a href="<?= $block->getViewUrl().'id/'.$item['post_id'];?>">View</a>
+                            </td>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="order-products-toolbar toolbar bottom">
+                    <?= $block->getPagerHtml() ?>
+                </div>
+            <?php endif ?>
+        <?php else: ?>
+            <div class="message info empty">
+                <span><?= $block->escapeHtml('You have no data in table.') ?></span>
+            </div>
+        <?php endif; ?>
+    </fieldset>
+<?php if(!$block->getData('ajax_data')): ?>
+    </div>
+<?php endif; ?>
+
+
+<script type="text/javascript">
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            $(document).ready(function() {
+
+                $(".delete_hero").on('click',function() {
+                    var el = this;
+                    var id = $(this).attr('data-id');
+
+
+                    var options = {
+                        'type': 'popup',
+                        'title': 'your popup title',
+                        'modalClass': 'your_popup_custom_class',
+                        'responsive': true,
+                        'innerScroll': true,
+                        'buttons': [{
+                            text: $.mage.__('OK'),
+                            class: 'back_button_class',
+                            click: function () {
+                                var param = { id : id};
+                                var url = '<?php  echo $block->getDeleteUrl();?>' + id;
+                                jQuery.ajax({
+                                    url: url,
+                                    showLoader: true,
+                                    data: param,
+                                    type: "POST",
+
+                                    success: function (res) {
+
+                                        $(el).closest('tr').css('background', 'tomato');
+                                        $(el).closest('tr').fadeOut(800, function() {
+                                            $(this).remove();
+                                        });
+                                        $(".action-close").trigger("click");
+                                    },
+                                    error: function (error) {
+                                        console.log(error);
+                                    }
+
+                                });
+                            }
+                        }]
+                    };
+                    var popup = modal(options, $('.content4'));
+                    $(".content4").modal("openModal");
+
+                });
+            });
+
+        }
+    );
+</script>

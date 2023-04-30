@@ -1,0 +1,1 @@
+/var/www/html/mage246local/app/code/Know/Blog/view/frontend/web/js/ajax_pagination.js

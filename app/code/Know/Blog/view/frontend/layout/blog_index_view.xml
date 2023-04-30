@@ -1,0 +1,5 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <referenceContainer name="content">
+        <block class="Know\Blog\Block\View" name="mrc_index_edit" template="Know_Blog::viewData.phtml"/>
+    </referenceContainer>
+</page>

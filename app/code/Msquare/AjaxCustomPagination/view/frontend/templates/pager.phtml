@@ -1,0 +1,54 @@
+<?php
+/**
+ * @category Msquare AjaxCustomPagination
+ * @package Msquare_AjaxCustomPagination
+ * @author Mahesh Makwana <maheshmakwana588@gmail.com>
+ */
+?>
+<?php $custom_data = $block->getCustomData();?>
+<?php if(!$block->getData('ajax_data')): ?>
+<div class="custom-ajax-data">
+<?php endif; ?>
+    <fieldset class="fieldset">
+        <?php if(count($custom_data)): ?>
+            <div class="table-wrapper custom-data ">
+                <table class="data table table-data-items ">
+                    <caption class="table-caption"><?= $block->escapeHtml('Custom Pagination') ?></caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col name"><?= $block->escapeHtml('Name') ?></th>
+                            <th scope="col" class="col orders"><?= $block->escapeHtml('Email') ?></th>
+                            <th scope="col" class="col orderitem"><?= $block->escapeHtml('Description') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($custom_data as $item): ?>
+                        <tr>
+                            <td data-th="Name" class="col name">
+                             <span><?= $block->escapeHtml($item->getName()) ?></span>
+                            </td>
+                            <td data-th="Orders" class="col orders">
+                                <span><?= $block->escapeHtml($item->getEmail()) ?></span>
+                            </td>
+                            <td data-th="Items" class="col orderitem">
+                                <span><?= $block->escapeHtml($item->getDescription()) ?></span>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if ($block->getPagerHtml()): ?>
+                    <div class="order-products-toolbar toolbar bottom">
+                        <?= $block->getPagerHtml() ?>
+                    </div>
+            <?php endif ?>
+        <?php else: ?>
+            <div class="message info empty">
+                <span><?= $block->escapeHtml('You have no data in table.') ?></span>
+            </div>
+        <?php endif; ?>
+    </fieldset>
+<?php if(!$block->getData('ajax_data')): ?>
+</div>
+<?php endif; ?>
